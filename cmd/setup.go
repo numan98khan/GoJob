@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"errors"
 
 	"github.com/spf13/cobra"
 )
@@ -25,6 +26,12 @@ import (
 var setupCmd = &cobra.Command{
 	Use:   "setup",
 	Short: "Sets up tej on a remote machine",
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) < 1 {
+		  return errors.New("requires a color argument")
+		}
+		return fmt.Errorf("invalid color specified: %s", args[0])
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		setup(cmd)
 	},
@@ -46,7 +53,7 @@ func init() {
 
 	// Here you will define your flags and configuration settings.
 
-	setupCmd.Flags().StringP("destination", "", "", "Machine to SSH into; [user@]host[:port]")
+	setupCmd.Flags().StringP("destination", "d", "", "Machine to SSH into; [user@]host[:port]")
 	rootCmd.MarkFlagRequired("destination")
 	setupCmd.Flags().StringP("queue", "", "", "Directory for tej's files")
 	setupCmd.Flags().StringP("runtime", "r", "", "runtime to deploy on the server if the queue doesn't\nexist. If unspecified, will auto-detect what is\nappropriate, and fallback on 'default'.")
