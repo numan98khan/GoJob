@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/numan98khan/GoJob/atexit/atexit"
+	"github.com/numan98khan/GoJob/atexit"
 )
 
 // Globals
